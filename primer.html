@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="go.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+            let myDiagram = $(go.Diagram, "myDiagramDiv");
+            let nodeDataArray = [{
+                key: "Alpha",
+                color: "lime"
+            }, {
+                key: "Beta",
+                color: "cyan"
+            }, {
+                key: "Zeta",
+                isGroup: true
+            }, {
+                key: "Delta",
+                color: "pink",
+                group: "Zeta"
+            }, {
+                key: "Gamma",
+                color: "maroom",
+                group: "Zeta"
+            }];
+            let linkDataArray = [{
+                from: "Alpha",
+                to: "Beta",
+                color: "red"
+            }, {
+                from: "Alpha",
+                to: "Zeta",
+            }];
+            myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+
+            myDiagram.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle", {
+                        fill: "#999"
+                    }, new go.Binding("fill", "color")),
+                    $(go.TextBlock, "text", {
+                        margin: 10
+                    }, new go.Binding("text", "key"))
+                );
+            myDiagram.linkTemplate =
+                $(go.Link,
+                    $(go.Shape, {
+                            strokeWidth: 3,
+                        },
+                        new go.Binding("stroke", "color")
+                    ),
+                    $(go.Shape, {
+                            toArrow: "Standard",
+                            stroke: null
+                        },
+                        new go.Binding("fill", "color")
+                    )
+                )
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv" style="width: 300px;height: 300px;border: 1px solid #000;"></div>
+</body>
+
+</html>
