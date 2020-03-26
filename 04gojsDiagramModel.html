@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS入门教程——第四节</title>
+    <script src="go.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+            let myDiagram1 = $(go.Diagram, "myDiagramDiv1");
+
+            let node1 = $(go.Node, "Auto",
+                $(go.Shape, {
+                    figure: "RoundedRectangle",
+                    fill: "lightblue"
+                }),
+                $(go.TextBlock, {
+                    text: "Alpha",
+                    margin: 5
+                })
+            );
+            myDiagram1.add(node1);
+
+            let node2 = $(go.Node, "Auto",
+                $(go.Shape, {
+                    figure: "RoundedRectangle",
+                    fill: "pink"
+                }),
+                $(go.TextBlock, {
+                    text: "Beta",
+                    margin: 5
+                })
+            );
+            myDiagram1.add(node2);
+
+            let link = $(go.Link, {
+                fromNode: node1,
+                toNode: node2
+            }, $(go.Shape))
+            myDiagram1.add(link);
+
+
+
+            let myDiagram2 = $(go.Diagram, "myDiagramDiv2");
+
+            myDiagram2.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle", {
+                            strokeWidth: 0
+                        },
+                        new go.Binding("fill", "color")),
+                    $(go.TextBlock, {
+                            margin: 8
+                        },
+                        new go.Binding("text", "key"))
+                )
+
+                myDiagram2.model = $(go.Model,{
+                    nodeDataArray:[
+                        {key:"Alpha",color:"orange"},
+                        {key:"Beta",color:"lime"}
+                    ]
+                })
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv1" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv2" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
+</body>
+
+</html>
