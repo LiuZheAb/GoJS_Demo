@@ -57,17 +57,136 @@
                         new go.Binding("text", "key"))
                 )
 
-                myDiagram2.model = $(go.Model,{
-                    nodeDataArray:[
-                        {key:"Alpha",color:"orange"},
-                        {key:"Beta",color:"lime"}
-                    ]
-                })
+            myDiagram2.model = $(go.Model, {
+                nodeDataArray: [{
+                        key: "Alpha",
+                        color: "orange"
+                    },
+                    {
+                        key: "Beta",
+                        color: "lime"
+                    }
+                ]
+            })
         }
     </script>
 </head>
 
 <body onload="init()">
+    <h1>GoJS入门教程——第四节 GoJS Diatram Model</h1>
+    <!doctype html>
+    <div class="lake-content-editor-core lake-engine lake-typography-classic" data-lake-element="root">
+        <h1 data-lake-id="bd9737a7e664989336c82e937cd3021c" id="LmuaH"
+            style="padding: 7px 0px; margin: 0px; font-weight: 700; font-size: 28px; line-height: 36px;">Diagram.add()
+        </h1>
+        <p data-lake-id="deffae1670c9641c12640a3ecdc9680e"
+            style="font-size: 14px; color: rgb(38, 38, 38); line-height: 1.74; letter-spacing: 0.05em; outline-style: none; overflow-wrap: break-word; margin: 0px;">
+            先看一组图：</p>
+        <p data-lake-id="a20d224c568e48b9d67847a2c66a8c01_p_0"
+            style="text-align: center; font-size: 14px; color: rgb(38, 38, 38); line-height: 1.74; letter-spacing: 0.05em; outline-style: none; overflow-wrap: break-word; margin: 0px;">
+            <span data-card-type="inline" data-lake-card="image" class=""><img data-role="image"
+                    src="https://cdn.nlark.com/yuque/0/2020/png/402067/1585193405398-ad1d7df4-8292-4baa-afc9-050fc2aaa9f3.png"
+                    data-raw-src="https://cdn.nlark.com/yuque/0/2020/png/402067/1585193405398-ad1d7df4-8292-4baa-afc9-050fc2aaa9f3.png"
+                    class="image lake-drag-image" alt="image.png" title="image.png"
+                    style="visibility: visible; border: none; box-shadow: none; width: 359px; height: 584px;"></span><span>&nbsp;
+                &nbsp; &nbsp;&nbsp;</span><span data-card-type="inline" data-lake-card="image" class=""><img
+                    data-role="image"
+                    src="https://cdn.nlark.com/yuque/0/2020/png/402067/1585193464407-10c119ac-1320-45e6-989f-ba1fce854e46.png"
+                    data-raw-src="https://cdn.nlark.com/yuque/0/2020/png/402067/1585193464407-10c119ac-1320-45e6-989f-ba1fce854e46.png"
+                    class="image lake-drag-image" alt="image.png" title="image.png"
+                    style="visibility: visible; border: none; box-shadow: none; width: 343px; height: 337px;"></span>
+        </p>
+        <h1 data-lake-id="47bbb865e80f2b1b376fb562e09daeaf" id="lsJh0"
+            style="padding: 7px 0px; margin: 0px; font-weight: 700; font-size: 28px; line-height: 36px;">为什么要用Diagram
+            Model？</h1>
+        <ul data-lake-id="4137eee0b8f25bab4debc44a5298cbc1" lake-indent="0"
+            style="list-style-type: disc; margin: 0px; padding-left: 23px; font-size: 14px; color: rgb(38, 38, 38); line-height: 1.74; letter-spacing: 0.05em; outline-style: none; overflow-wrap: break-word;">
+            <li data-lake-id="fc15778ec46698061e4bdf32b4418a2b"><span>清晰地分离Part</span>数据与Part外观</li>
+        </ul>
+        <ul data-lake-id="2113981abf0b677ac9c8081c73af07b8" lake-indent="1"
+            style="list-style-type: none; margin: 0px; padding-left: 23px; font-size: 14px; color: rgb(38, 38, 38); line-height: 1.74; letter-spacing: 0.05em; outline-style: none; overflow-wrap: break-word;">
+            <ul data-lake-id="cc079a4d726282c35951c929cd9b9414" lake-indent="0"
+                style="list-style-type: circle; margin: 0px; padding-left: 23px;">
+                <li data-lake-id="df49b78efea6c782b802e37d3145d84f">Diagram Model管理Part数据(JavaScript Obiects)</li>
+                <li data-lake-id="c40a947ed9dd25e1e21c9d1368ded9fa">Diagram templates管理Part外观</li>
+            </ul>
+        </ul>
+        <ul data-lake-id="efd29b52825b66d025d591a0e0ef56eb" lake-indent="0"
+            style="list-style-type: disc; margin: 0px; padding-left: 23px; font-size: 14px; color: rgb(38, 38, 38); line-height: 1.74; letter-spacing: 0.05em; outline-style: none; overflow-wrap: break-word;">
+            <li data-lake-id="925cd277f974bec732d2c30b85fb0f88">便于保存/加载/更新Diagram components</li>
+            <li data-lake-id="d3a9ad9d521a65518ec270b0f0cb758c">便于Node/Link的序列化</li>
+        </ul>
+        <h1 data-lake-id="b4ba2f864707fc13ab53f5b7b1ffedd1" id="2cPLw"
+            style="padding: 7px 0px; margin: 0px; font-weight: 700; font-size: 28px; line-height: 36px;">建立一个Diagram
+            Model</h1>
+        <ul data-lake-id="7d5973367978e25f1a07b38b4cdf65f4" lake-indent="0"
+            style="list-style-type: disc; margin: 0px; padding-left: 23px; font-size: 14px; color: rgb(38, 38, 38); line-height: 1.74; letter-spacing: 0.05em; outline-style: none; overflow-wrap: break-word;">
+            <li data-lake-id="e69dfbccdccab04c026955a2636f38d9">方法1</li>
+        </ul>
+        <ul data-lake-id="ee631516489719f92b5094c1568b825c" lake-indent="1"
+            style="list-style-type: none; margin: 0px; padding-left: 23px; font-size: 14px; color: rgb(38, 38, 38); line-height: 1.74; letter-spacing: 0.05em; outline-style: none; overflow-wrap: break-word;">
+            <ul data-lake-id="61f15d3409a1350c497cbddc1eb0d103" lake-indent="0"
+                style="list-style-type: circle; margin: 0px; padding-left: 23px;">
+                <li data-lake-id="878cb1ea3324a1858d5c7f821262911f">myDiagram.model=$(go.Model,{&lt;key/value pairs for
+                    Model properties&gt;})</li>
+            </ul>
+        </ul>
+        <ul data-lake-id="329d1d443792c7de7fe5577d3634c89b" lake-indent="0"
+            style="list-style-type: disc; margin: 0px; padding-left: 23px; font-size: 14px; color: rgb(38, 38, 38); line-height: 1.74; letter-spacing: 0.05em; outline-style: none; overflow-wrap: break-word;">
+            <li data-lake-id="65865238621feb919677dd04c4c71ee5">方法2</li>
+        </ul>
+        <ul data-lake-id="18617184643defe679207b86662c2872" lake-indent="1"
+            style="list-style-type: none; margin: 0px; padding-left: 23px; font-size: 14px; color: rgb(38, 38, 38); line-height: 1.74; letter-spacing: 0.05em; outline-style: none; overflow-wrap: break-word;">
+            <ul data-lake-id="78a7520faa4216eb76efc6b5ee316f3d" lake-indent="0"
+                style="list-style-type: circle; margin: 0px; padding-left: 23px;">
+                <li data-lake-id="6bce7b0d653408ba7b3ed2a2efa423d3">myDiagram.model=new
+                    go.Model(&lt;nodeDataArray&gt;,&lt;linkDataArray(if GraphLinksModel)&gt;)</li>
+            </ul>
+        </ul>
+        <h1 data-lake-id="23b5a3cb09f389cd530cf60bccb88c78" id="pUxME"
+            style="padding: 7px 0px; margin: 0px; font-weight: 700; font-size: 28px; line-height: 36px;">默认的Model</h1>
+        <ul data-lake-id="7270c31edcc9691452343f7ce16820d8" start="1" lake-indent="0"
+            style="list-style-type: disc; margin: 0px; padding-left: 23px; font-size: 14px; color: rgb(38, 38, 38); line-height: 1.74; letter-spacing: 0.05em; outline-style: none; overflow-wrap: break-word;">
+            <li data-lake-id="1be2fbc49550498b8227e7fd4d2f788c">在nodeDataArray中管理node数据</li>
+            <li data-lake-id="c1f34e444275ebb64a912c5238c7261e">不支持link数据</li>
+            <li data-lake-id="c9a55546f9807546804b7e69c6afbfd7">node数据有两个默认属性："key"和"category"</li>
+        </ul>
+        <ul data-lake-id="79d337ee04bf4715e3044b43c3389941" lake-indent="1"
+            style="list-style-type: none; margin: 0px; padding-left: 23px; font-size: 14px; color: rgb(38, 38, 38); line-height: 1.74; letter-spacing: 0.05em; outline-style: none; overflow-wrap: break-word;">
+            <ul data-lake-id="05782f59877650af8f38005acb940974" start="1" lake-indent="0"
+                style="list-style-type: circle; margin: 0px; padding-left: 23px;">
+                <li data-lake-id="c827e67c8eaf0aacf97378d1b86e1669">所有Model类都是如此</li>
+                <li data-lake-id="356674f5d3f7a03eab7d64c18d8fb2e5">如果“key”为空，则会自动生成一个唯一的key</li>
+                <li data-lake-id="578879e44444c3a9d4d80cc50e917088">如果“category”留空，GoJS使用以下中的一种</li>
+            </ul>
+        </ul>
+        <ol data-lake-id="135b9aa1c915de4851daf0365a5006ef" lake-indent="2"
+            style="list-style-type: none; margin: 0px; padding-left: 23px; font-size: 14px; color: rgb(38, 38, 38); line-height: 1.74; letter-spacing: 0.05em; outline-style: none; overflow-wrap: break-word;">
+            <ol data-lake-id="c34e72124f1d5705998f353c85e8b23e" lake-indent="1"
+                style="list-style-type: none; margin: 0px; padding-left: 23px;">
+                <ol data-lake-id="e0a2a32df0c5ffe90f8c6ccdc6fdf8e1" lake-indent="0"
+                    style="list-style-type: lower-roman; margin: 0px; padding-left: 23px;">
+                    <li data-lake-id="e553ad528e2b8a65961ca9e5c922f76d">nodeTemplateMap值在key为""时(与nodeTemplateMap相同)
+                    </li>
+                    <li data-lake-id="a87f203d649dbd2b123aaa285d3d303e">默认节点模板(只有TextBlock表示其key)</li>
+                </ol>
+            </ol>
+        </ol>
+        <p data-lake-id="476645fc45c9704d1d36ba13598bab9e"
+            style="text-align: center; font-size: 14px; color: rgb(38, 38, 38); line-height: 1.74; letter-spacing: 0.05em; outline-style: none; overflow-wrap: break-word; margin: 0px;">
+            <span data-card-type="inline" data-lake-card="image" class=""><img data-role="image"
+                    src="https://cdn.nlark.com/yuque/0/2020/png/402067/1585196886805-e304bcfa-fa02-43b9-b5ce-0fb4b1833663.png"
+                    data-raw-src="https://cdn.nlark.com/yuque/0/2020/png/402067/1585196886805-e304bcfa-fa02-43b9-b5ce-0fb4b1833663.png"
+                    class="image lake-drag-image" alt="image.png" title="image.png"
+                    style="visibility: visible; border: none; box-shadow: none; width: 341px; height: 341px;"></span><span>&nbsp;
+                &nbsp; &nbsp;&nbsp;</span><span data-card-type="inline" data-lake-card="image" class=""><img
+                    data-role="image"
+                    src="https://cdn.nlark.com/yuque/0/2020/png/402067/1585196920151-0282e5fb-ca0e-4cf0-9909-496e4a1ddb0d.png"
+                    data-raw-src="https://cdn.nlark.com/yuque/0/2020/png/402067/1585196920151-0282e5fb-ca0e-4cf0-9909-496e4a1ddb0d.png"
+                    class="image lake-drag-image" alt="image.png" title="image.png"
+                    style="visibility: visible; border: none; box-shadow: none; width: 310px; height: 306px;"></span>
+        </p>
+    </div>
     <div id="myDiagramDiv1" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
     <div id="myDiagramDiv2" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
 </body>
