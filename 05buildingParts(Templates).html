@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS入门教程——第五节</title>
+    <script src="go.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+
+            let myDiagram1 = $(go.Diagram, "myDiagramDiv1");
+            myDiagram1.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, {
+                            figure: "RoundedRectangle",
+                            fill: "white"
+                        },
+                        new go.Binding("fill", "color")),
+                    $(go.TextBlock, {
+                            margin: 5
+                        },
+                        new go.Binding("text", "key"))
+                );
+            let nodeDataArray = [{
+                key: "Alpha",
+                color: "lightblue"
+            }, {
+                key: "Beta",
+                color: "pink"
+            }];
+            let linkDataArray = [{
+                from: "Alpha",
+                to: "Beta"
+            }];
+            myDiagram1.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+
+            myDiagram1.nodeTemplateMap.add("Square",
+                $(go.Node, "Auto",
+                    $(go.Shape, "Rectangle", {
+                        fill: "color",
+                        height: 100,
+                        width: 100
+                    }, new go.Binding("fill", "color")),
+                    $(go.TextBlock, {
+                        margin: 2
+                    }, new go.Binding("text", "key"))
+                )
+            );
+
+            let myDiagram2 = $(go.Diagram, "myDiagramDiv2", {
+                initialContentAlignment: go.Spot.Center
+            });
+            myDiagram2.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle",
+                        new go.Binding("fill", "color", function (c) {
+                            if (c === 0) return "red";
+                            if (c === 1) return "blue";
+                        })),
+                    $(go.TextBlock, "Node"))
+            myDiagram2.model = new go.GraphLinksModel([{
+                key: "Alpha",
+                color: 0
+            }, {
+                key: "Alpha",
+                color: 1
+            }, {
+                key: "Alpha",
+                color: 42
+            }]);
+
+            let myDiagram3 = $(go.Diagram, "myDiagramDiv3", {
+                initialContentAlignment: go.Spot.Center
+            });
+            myDiagram3.nodeTemplateMap.add("SimpleNode",
+                $(go.Node, "Spot",
+                    $(go.Shape, "Rectangle", {
+                        fill: "white",
+                        desiredSize: new go.Size(100, 20)
+                    }),
+                    $(go.Panel, "Auto", {
+                            alignment: go.Spot.Left
+                        },
+                        $(go.Shape, "Ellipse", {
+                                fill: "white"
+                            },
+                            new go.Binding("fill", "color", function (color) {
+                                return color === 0 ? "lime" : "cyan";
+                            })
+                        ),
+                        $(go.TextBlock, "SimpleNode",
+                            new go.Binding("text", "key")
+                        )
+                    ),
+                    $(go.Shape, "TriangleUp", {
+                        fill: "white",
+                        desiredSize: new go.Size(20, 20),
+                        alignment: go.Spot.Right
+                    })
+                )
+            )
+            myDiagram3.linkTemplateMap.add("SimpleLink",
+                $(go.Link,
+                    $(go.Shape),
+                    $(go.Shape, {
+                        toArrow: "Standard"
+                    }),
+                    $(go.TextBlock, "Link", {
+                        segmentOffset: new go.Point(0, 10)
+                    }),
+                )
+            )
+            myDiagram3.groupTemplateMap.add("SimpleGroup",
+                $(go.Group, "Vertical",
+                    $(go.TextBlock, "Group"),
+                    $(go.Panel, "Auto",
+                        $(go.Shape, "RoundedRectangle", {
+                            fill: "beige"
+                        }),
+                        $(go.Placeholder, {
+                            padding: 5
+                        })
+                    )
+                ))
+            myDiagram3.model = new go.GraphLinksModel([{
+                    key: "Alpha",
+                    category: "SimpleNode"
+                }, {
+                    key: "Beta",
+                    isGroup: true,
+                    category: "SimpleGroup"
+                }, {
+                    key: "Gamma",
+                    group: "Beta",
+                    category: "SimpleNode",
+                    color: 0
+                }, {
+                    key: "Delta",
+                    group: "Beta",
+                    category: "SimpleNode",
+                    color: 1
+                }],
+                [{
+                    from: "Alpha",
+                    to: "Beta",
+                    category: "SimpleLink"
+                }]);
+        };
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv1" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv2" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv3" style="height: 400px;width: 800px;border: 1px solid #000;"></div>
+
+</body>
+
+</html>
