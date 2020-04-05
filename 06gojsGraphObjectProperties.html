@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS入门教程——第六节 GoJS GraphObject属性</title>
+    <script src="go.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+
+            let myDiagram1 = $(go.Diagram, "myDiagramDiv1");
+            myDiagram1.nodeTemplate =
+                $(go.Node, "Vertical", {
+                        selectable: true,
+                        deletable: true,
+                        resizable: true,
+                        rotatable: true,
+                        resizeObjectName: "PANEL",
+                        rotateObjectName: "PANEL"
+                    },
+                    $(go.TextBlock, "text", {
+                        text: "Example",
+                        font: "Italic small-caps bold 12pt Georgia,Serif",
+                        stroke: "purple",
+                        editable: true
+                    }),
+                    $(go.Panel, "Auto", {
+                            name: "PANEL"
+                        },
+                        $(go.Shape, "RoundedRectangle", {
+                            figure: "Ellipse",
+                            fill: "pink",
+                            stroke: "purple",
+                            strokeWidth: 10
+                        }),
+                        $(go.Picture, "./avatar.54d15c2f.jpg", {
+                            desiredSize: new go.Size(150, 100),
+                            margin: new go.Margin(25, 0, 0, 0)
+                        })
+                    )
+                );
+
+            myDiagram1.model = new go.GraphLinksModel(
+                [{
+                    key: "Alpha"
+                }]
+            );
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv1" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
+</body>
+
+</html>
