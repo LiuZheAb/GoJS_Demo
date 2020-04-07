@@ -12,9 +12,7 @@
             let myDiagram = $(go.Diagram, "myDiagramDiv");
 
             myDiagram.nodeTemplate =
-                $(go.Node, "Auto", {
-                        locationSpot: go.Spot.Center
-                    },
+                $(go.Node, "Auto", 
                     $(go.Shape, "RoundedRectangle", {
                         fill: "lightblue"
                     }),
