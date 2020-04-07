@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS布局——第二节</title>
+    <script src="go.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+            let myDiagram = $(go.Diagram, "myDiagramDiv");
+
+            myDiagram.nodeTemplate =
+                $(go.Node, "Auto", {
+                        locationSpot: go.Spot.Center
+                    },
+                    $(go.Shape, "RoundedRectangle", {
+                        fill: "lightblue"
+                    }),
+                    $(go.TextBlock, {
+                            margin: 8
+                        },
+                        new go.Binding("text", "key"))
+                );
+            myDiagram.layout = $(go.GridLayout, {
+                wrappingColumn: 3,
+                wrappingWidth: NaN,
+                cellSize: new go.Size(NaN, NaN),
+                spacing: new go.Size(50, 10),
+                alignment: go.GridLayout.location,
+                sorting: go.GridLayout.Ascending,
+                comparer: function (a, b) {
+                    if (a.data.key < b.data.key) return -1;
+                    if (a.data.key > b.data.key) return 1;
+                    return 0;
+                },
+                arrangement: go.GridLayout.RightToLeft,
+            });
+            myDiagram.model =
+                $(go.GraphLinksModel, {
+                    nodeDataArray: [{
+                        key: "Zeta",
+                    }, {
+                        key: "Delta",
+                    }, {
+                        key: "Beta"
+                    }, {
+                        key: "Gamma"
+                    }, {
+                        key: "Epsilon"
+                    }, {
+                        key: "Alpha"
+                    }, ],
+                    linkDataArray: []
+                })
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv" style="height: 600px;width: 600px;border: 1px solid #000;"></div>
+</body>
+
+</html>
