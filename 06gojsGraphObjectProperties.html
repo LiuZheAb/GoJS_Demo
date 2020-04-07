@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoJS入门教程——第六节 GoJS GraphObject属性</title>
-    <script src="go.js"></script>
+    <script src="go-debug.js"></script>
     <script>
         function init() {
             let $ = go.GraphObject.make;
 
-            let myDiagram1 = $(go.Diagram, "myDiagramDiv1");
-            myDiagram1.nodeTemplate =
+            var myDiagram = $(go.Diagram, "myDiagramDiv");
+            myDiagram.nodeTemplate =
                 $(go.Node, "Vertical", {
                         selectable: true,
                         deletable: true,
@@ -42,7 +42,7 @@
                     )
                 );
 
-            myDiagram1.model = new go.GraphLinksModel(
+            myDiagram.model = new go.GraphLinksModel(
                 [{
                     key: "Alpha"
                 }]
@@ -52,7 +52,7 @@
 </head>
 
 <body onload="init()">
-    <div id="myDiagramDiv1" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
 </body>
 
 </html>
