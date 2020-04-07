@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS布局——第三节</title>
+    <script src="go.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+            let myDiagram = $(go.Diagram, "myDiagramDiv");
+
+            myDiagram.nodeTemplate =
+                $(go.Node, "Auto", {
+                        locationSpot: go.Spot.Center
+                    },
+                    $(go.Shape, "RoundedRectangle", {
+                        fill: "lightblue"
+                    }),
+                    $(go.TextBlock, {
+                            margin: 8
+                        },
+                        new go.Binding("text", "key"))
+                );
+            myDiagram.layout = $(go.TreeLayout, {
+                angle: 90,
+                layerSpacing: 20,
+                nodeSpacing: 100,
+                alignment: go.TreeLayout.AlignmentStart,
+                sorting: go.TreeLayout.SortingAscending,
+                comparer: function (a, b) {
+                    a = a.node;
+                    b = b.node;
+                    if (a.data.key < b.data.key) return -1;
+                    if (a.data.key > b.data.key) return 1;
+                    return 0;
+                },
+                treeStyle: go.TreeLayout.StyleRootOnly,
+                alternateAngle: 270
+            });
+            myDiagram.model =
+                $(go.GraphLinksModel, {
+                    nodeDataArray: [{
+                        key: "Alpha",
+                    }, {
+                        key: "Beta",
+                    }, {
+                        key: "Gamma"
+                    }, {
+                        key: "Delta"
+                    }, {
+                        key: "Epsilon"
+                    }, {
+                        key: "Zeta"
+                    }, {
+                        key: "Omega"
+                    }, {
+                        key: "Phi"
+                    }, {
+                        key: "Kappa"
+                    }, ],
+                    linkDataArray: [{
+                            from: "Alpha",
+                            to: "Beta"
+                        },
+                        {
+                            from: "Alpha",
+                            to: "Gamma"
+                        },
+                        {
+                            from: "Delta",
+                            to: "Alpha"
+                        },
+                        {
+                            from: "Delta",
+                            to: "Epsilon"
+                        },
+                        {
+                            from: "Gamma",
+                            to: "Zeta"
+                        },
+                        {
+                            from: "Gamma",
+                            to: "Omega"
+                        },
+                        {
+                            from: "Epsilon",
+                            to: "Kappa"
+                        },
+                        {
+                            from: "Gamma",
+                            to: "Phi"
+                        },
+                    ]
+                })
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv" style="height: 600px;width: 600px;border: 1px solid #000;"></div>
+</body>
+
+</html>
