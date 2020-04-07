@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS布局——第六节</title>
+    <script src="go.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+            let myDiagram = $(go.Diagram, "myDiagramDiv");
+
+            myDiagram.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle", {
+                        fill: "lightblue"
+                    }),
+                    $(go.TextBlock, {
+                            margin: 8
+                        },
+                        new go.Binding("text", "key"))
+                );
+            myDiagram.layout = $(go.CircularLayout, {
+                spacing: 50,
+                radius: 50,
+                startAngle: 90,
+                sweepAngle: 360,
+                aspectRatio: 1.5,
+                direction: go.CircularLayout.Clockwise,
+                sorting: go.CircularLayout.Forwards
+            });
+            myDiagram.model =
+                $(go.GraphLinksModel, {
+                    nodeDataArray: [{
+                        key: "Alpha",
+                    }, {
+                        key: "Beta",
+                    }, {
+                        key: "Gamma"
+                    }, {
+                        key: "Delta"
+                    }, {
+                        key: "Epsilon"
+                    }, {
+                        key: "Zeta"
+                    }],
+                    linkDataArray: [{
+                            from: "Alpha",
+                            to: "Beta"
+                        },
+                        {
+                            from: "Alpha",
+                            to: "Gamma"
+                        },
+                        {
+                            from: "Beta",
+                            to: "Delta"
+                        },
+                        {
+                            from: "Delta",
+                            to: "Epsilon"
+                        },
+                        {
+                            from: "Zeta",
+                            to: "Epsilon"
+                        }
+                    ]
+                })
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv" style="height: 900px;width: 600px;border: 1px solid #000;"></div>
+</body>
+
+</html>
