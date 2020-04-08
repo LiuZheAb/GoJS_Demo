@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS入门教程——第四节 GoJS Diatram Model</title>
+    <script src="go.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+
+            let myDiagram1 = $(go.Diagram, "myDiagramDiv1");
+            let node1 = $(go.Node, "Auto",
+                $(go.Shape, {
+                    figure: "RoundedRectangle",
+                    fill: "lightblue"
+                }),
+                $(go.TextBlock, {
+                    text: "Alpha",
+                    margin: 5
+                })
+            );
+            myDiagram1.add(node1);
+            let node2 = $(go.Node, "Auto",
+                $(go.Shape, {
+                    figure: "RoundedRectangle",
+                    fill: "pink"
+                }),
+                $(go.TextBlock, {
+                    text: "Beta",
+                    margin: 5
+                })
+            );
+            myDiagram1.add(node2);
+            let link = $(go.Link, {
+                fromNode: node1,
+                toNode: node2
+            }, $(go.Shape))
+            myDiagram1.add(link);
+
+            let myDiagram2 = $(go.Diagram, "myDiagramDiv2");
+            myDiagram2.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle", {
+                            strokeWidth: 0
+                        },
+                        new go.Binding("fill", "color")),
+                    $(go.TextBlock, {
+                            margin: 8
+                        },
+                        new go.Binding("text", "key"))
+                )
+            myDiagram2.model = $(go.Model, {
+                nodeDataArray: [{
+                        key: "Alpha",
+                        color: "orange"
+                    },
+                    {
+                        key: "Beta",
+                        color: "lime"
+                    }
+                ]
+            })
+
+            let myDiagram3 = $(go.Diagram, "myDiagramDiv3");
+            myDiagram3.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle", {
+                            strokeWidth: 0
+                        },
+                        new go.Binding("fill", "color")),
+                    $(go.TextBlock, {
+                            margin: 8
+                        },
+                        new go.Binding("text", "key"))
+                )
+            myDiagram3.model = new go.GraphLinksModel(
+                [{
+                    key: "Alpha",
+                    color: "orange"
+                }, {
+                    key: "Beta",
+                    color: "lime"
+                }], [{
+                    from: "Alpha",
+                    to: "Beta"
+                }]
+            )
+
+            let myDiagram4 = $(go.Diagram, "myDiagramDiv4");
+            myDiagram4.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle", {
+                            strokeWidth: 0
+                        },
+                        new go.Binding("fill", "color")),
+                    $(go.TextBlock, {
+                            margin: 8
+                        },
+                        new go.Binding("text", "key"))
+                )
+            myDiagram4.model = new go.TreeModel(
+                [{
+                    key: "Alpha",
+                    color: "orange"
+                }, {
+                    key: "Beta",
+                    color: "lime",
+                    parent: "Alpha"
+                }, {
+                    key: "Delta",
+                    color: "pink",
+                    parent: "Alpha"
+                }, {
+                    key: "Gamma",
+                    color: "cyan",
+                    parent: "Alpha"
+                }]
+            )
+
+            let myDiagram5 = $(go.Diagram, "myDiagramDiv5");
+            myDiagram5.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle", {
+                            strokeWidth: 0
+                        },
+                        new go.Binding("fill", "color")),
+                    $(go.TextBlock, {
+                            margin: 8
+                        },
+                        new go.Binding("text", "key"))
+                )
+            myDiagram5.model = new go.TreeModel(
+                [{
+                    key: "Alpha",
+                    color: "orange"
+                }, {
+                    key: "Beta",
+                    color: "lime",
+                    parent: "Alpha"
+                }, {
+                    key: "Delta",
+                    color: "pink",
+                    parent: "Alpha"
+                }, {
+                    key: "Gamma",
+                    color: "cyan",
+                    parent: "Alpha"
+                }]
+            )
+            let data = {
+                key: "Zeta",
+                color: "beige"
+            };
+            myDiagram5.model.addNodeData(data);
+            let dataObj = myDiagram5.model.findNodeDataForKey("Zeta");
+            myDiagram5.model.set(dataObj, "color", "red");
+
+            var myDiagram6 = $(go.Diagram, "myDiagramDiv6");
+            myDiagram6.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle", {
+                            strokeWidth: 0
+                        },
+                        new go.Binding("fill", "color")),
+                    $(go.TextBlock, {
+                            margin: 8
+                        },
+                        new go.Binding("text", "key"))
+                )
+            myDiagram6.model = new go.TreeModel(
+                [{
+                    key: "Alpha",
+                    color: "orange"
+                }, {
+                    key: "Beta",
+                    color: "lime",
+                    parent: "Alpha"
+                }, {
+                    key: "Delta",
+                    color: "pink",
+                    parent: "Alpha"
+                }, {
+                    key: "Gamma",
+                    color: "cyan",
+                    parent: "Alpha"
+                }]
+            )
+            myDiagram6.model.addNodeData(data);
+            let dataObj2 = myDiagram6.model.findNodeDataForKey("Zeta");
+            myDiagram6.model.set(dataObj, "color", "red");
+        }
+        let file;
+
+        function save() {
+            file = myDiagram6.model.toJson();
+        }
+
+        function load() {
+            myDiagram6.model = go.Model.fromJson(file)
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv1" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv2" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv3" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv4" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv5" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv6" style="height: 400px;width: 400px;border: 1px solid #000;"></div>
+    <button onclick="save()">Save</button>
+    <button onclick="load()">Load</button>
+</body>
+
+</html>
