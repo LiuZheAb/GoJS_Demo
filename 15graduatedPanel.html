@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS面板——第三节 刻度面板</title>
+    <script src="go.js"></script>
+    <script src="Figures.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+            let myDiagram = $(go.Diagram, "myDiagramDiv");
+            myDiagram.add(
+                $(go.Part, "Graduated", {
+                        background: "white",
+                        graduatedMin: 0,
+                        graduatedMax: 200,
+                        graduatedTickUnit: 10,
+                        graduatedTickBase: 0
+                    },
+                    $(go.Shape, "Curve1", {
+                        width: 300,
+                        height: 300
+                    }),
+                    $(go.Shape, "LineV", {
+                        height: 10,
+                        interval: 2,
+                    }),
+                    $(go.TextBlock, {
+                        segmentOffset: new go.Point(0, 10),
+                        interval: 2,
+                        stroke: "blue",
+                        font: "10px sans-serif"
+                    }),
+                    $(go.TextBlock, {
+                        segmentOffset: new go.Point(0, 20),
+                        interval: 4,
+                        font: "bold 12px sans-serif"
+                    }),
+                )
+            );
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv" style="height: 500px;width: 600px;border: 1px solid #000;"></div>
+</body>
+
+</html>
