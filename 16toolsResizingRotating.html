@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS工具——第一节 调整大小,旋转,装饰</title>
+    <script src="go.js"></script>
+    <script src="Figures.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+            let myDiagram1 = $(go.Diagram, "myDiagramDiv1", {
+                "undoManager.isEnabled": true
+            });
+
+            myDiagram1.nodeTemplate = $(go.Node, "Vertical", {
+                    resizable: true,
+                    resizeObjectName: "SHAPE",
+                    resizeCellSize: new go.Size(10, 10),
+                    selectionAdorned: false,
+                    resizeAdornmentTemplate: $(go.Adornment, "Spot",
+                        $(go.Placeholder),
+                        $(go.Shape, {
+                            alignment: go.Spot.Right,
+                            stroke: "dodgerblue",
+                            fill: "lightblue",
+                            desiredSize: new go.Size(9, 9),
+                            cursor: "col-resize"
+                        }),
+                        $(go.Shape, {
+                            alignment: go.Spot.Left,
+                            stroke: "dodgerblue",
+                            fill: "lightblue",
+                            desiredSize: new go.Size(9, 9),
+                            cursor: "col-resize"
+                        }),
+                    )
+                },
+                $(go.Shape, "RoundedRectangle", {
+                    fill: "cyan",
+                    name: "SHAPE",
+                    maxSize: new go.Size(100, 300),
+                    minSize: new go.Size(20, 20),
+                }),
+                $(go.TextBlock, {
+                    margin: 8
+                }, new go.Binding("text", "key"))
+            );
+            myDiagram1.model = $(go.GraphLinksModel, {
+                nodeDataArray: [{
+                    key: "Alpha"
+                }]
+            })
+
+
+            let myDiagram2 = $(go.Diagram, "myDiagramDiv2", {
+                "undoManager.isEnabled": true
+            });
+            myDiagram2.nodeTemplate = $(go.Node, "Vertical", {
+                    rotatable: true,
+                    locationSpot: go.Spot.Center,
+                    rotateObjectName: "SHAPE"
+                },
+                $(go.Shape, "RoundedRectangle", {
+                    fill: "cyan",
+                    name: "SHAPE"
+                }),
+                $(go.TextBlock, {
+                    margin: 8
+                }, new go.Binding("text", "key"))
+            );
+            myDiagram2.toolManager.rotatingTool.snapAngleEpsilon=45;
+            myDiagram2.model = $(go.GraphLinksModel, {
+                nodeDataArray: [{
+                    key: "Alpha"
+                }]
+            })
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv1" style="height: 500px;width: 600px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv2" style="height: 500px;width: 600px;border: 1px solid #000;"></div>
+
+</body>
+
+</html>
