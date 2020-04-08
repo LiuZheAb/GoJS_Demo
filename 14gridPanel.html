@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS面板——第二节 网格面板</title>
+    <script src="go.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+            let myDiagram = $(go.Diagram, "myDiagramDiv");
+            myDiagram.grid.visible = true;
+            myDiagram.nodeTemplate = $(go.Node, "Auto", {
+                    resizable: true
+                },
+                $(go.Shape, "Rectangle", {
+                    fill: "lightgray"
+                }),
+                $(go.TextBlock, {
+                    margin: 5
+                }, new go.Binding("text", "key")));
+            let nodeDataArray = [{
+                key: "Alpha"
+            }, {
+                key: "Beta"
+            }, {
+                key: "Gamma"
+            }];
+            myDiagram.model = new go.GraphLinksModel(nodeDataArray);
+            myDiagram.toolManager.draggingTool.isGridSnapEnabled = true;
+            myDiagram.toolManager.resizingTool.isGridSnapEnabled = true;
+            myDiagram.grid.gridCellSize = new go.Size(50, 50);
+            myDiagram.grid =
+                $(go.Panel, "Grid", {
+                        gridCellSize: new go.Size(50, 50)
+                    },
+                    $(go.Shape, "BarH", {
+                        fill: "lime",
+                        height: 50,
+                        interval: 2,
+                        opacity: .25
+                    }),
+                    $(go.Shape, "BarV", {
+                        fill: "lime",
+                        height: 50,
+                        interval: 2,
+                        opacity: .25
+                    })
+                );
+
+            // $(go.Shape, "lineH", {
+            //     stroke: "blue",
+            //     interval: 5
+            // }),
+            // $(go.Shape, "lineV", {
+            //     stroke: "green",
+            //     interval: 5
+            // }),
+            // $(go.Shape, "lineH", {
+            //     stroke: "lightblue"
+            // }),
+            // $(go.Shape, "lineV", {
+            //     stroke: "lightgreen"
+            // }),
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv" style="height: 900px;width: 600px;border: 1px solid #000;"></div>
+</body>
+
+</html>
