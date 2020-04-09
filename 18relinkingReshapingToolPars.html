@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS工具——第二节 概述</title>
+    <script src="go.js"></script>
+    <script src="./Figures.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+            let myDiagram1 = $(go.Diagram, "myDiagramDiv1", {
+                "undoManager.isEnabled": true
+            });
+
+            myDiagram1.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle", {
+                        fill: "cyan",
+                        portId: "",
+                        fromLinkable: true,
+                        toLinkable: true
+                    }),
+                    $(go.TextBlock, {
+                            margin: 8
+                        },
+                        new go.Binding("text", "key"))
+                );
+            myDiagram1.linkTemplate =
+                $(go.Link, {
+                        relinkableFrom: true,
+                        relinkableTo: true
+                    },
+                    $(go.Shape),
+                    $(go.Shape, {
+                        toArrow: "standard",
+                    }),
+                );
+
+            myDiagram1.toolManager.relinkingTool.fromHandleArchetype =
+                $(go.Shape, "Diamond", {
+                    desiredSize: new go.Size(9, 9),
+                    stroke: "green",
+                    fill: "lime",
+                    segmentIndex: 0
+                });
+            myDiagram1.toolManager.relinkingTool.toHandleArchetype =
+                $(go.Shape, "Diamond", {
+                    desiredSize: new go.Size(9, 9),
+                    stroke: "red",
+                    fill: "pink",
+                    segmentIndex: -1
+                });
+
+            myDiagram1.toolManager.relinkingTool.linkValidation = function (fromnode, fromport, tonode, toport, link) {
+                return fromnode.data.key === "Alpha";
+            }
+
+            myDiagram1.model =
+                $(go.GraphLinksModel, {
+                    nodeDataArray: [{
+                        key: "Alpha"
+                    }, {
+                        key: "Beta"
+                    }, {
+                        key: "Gamma"
+                    }, {
+                        key: "Delta"
+                    }],
+                    linkDataArray: [{
+                        from: "Alpha",
+                        to: "Beta"
+                    }]
+                })
+
+
+
+
+
+            let myDiagram2 = $(go.Diagram, "myDiagramDiv2", {
+                "undoManager.isEnabled": true
+            });
+
+            myDiagram2.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle", {
+                        fill: "cyan",
+                    }),
+                    $(go.TextBlock, {
+                            margin: 8
+                        },
+                        new go.Binding("text", "key")
+                    )
+                );
+            myDiagram2.linkTemplate =
+                $(go.Link, {
+                        reshapable: true,
+                        routing: go.Link.Orthogonal,
+                        resegmentable: true
+                    },
+                    $(go.Shape),
+                    $(go.Shape, {
+                        toArrow: "standard",
+                    }),
+                );
+
+            myDiagram2.model =
+                $(go.GraphLinksModel, {
+                    nodeDataArray: [{
+                        key: "Alpha"
+                    }, {
+                        key: "Beta"
+                    }],
+                    linkDataArray: [{
+                        from: "Alpha",
+                        to: "Beta"
+                    }]
+                })
+
+
+
+
+
+            let myDiagram3 = $(go.Diagram, "myDiagramDiv3", {
+                "undoManager.isEnabled": true
+            });
+
+            myDiagram3.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle", {
+                        fill: "cyan",
+                        portId: "",
+                        fromLinkable: true,
+                        toLinkable: true
+                    }),
+                    $(go.TextBlock, {
+                            margin: 8
+                        },
+                        new go.Binding("text", "key")
+                    )
+                );
+
+            myDiagram3.toolManager.dragSelectingTool.box =
+                $(go.Part, {
+                        layerName: "Tool"
+                    },
+                    $(go.Shape, "RoundedRectangle", {
+                        fill: null,
+                        strokeWidth: 5,
+                        stroke: "lime"
+                    })
+                )
+            myDiagram3.toolManager.linkingTool.temporaryLink =
+                $(go.Link, {
+                        layerName: "Tool"
+                    },
+                    $(go.Shape, {
+                        stroke: "red",
+                        strokeWidth: 2,
+                        strokeDashArray: [4, 2]
+                    })
+                )
+            myDiagram3.model = new go.GraphLinksModel(
+                [{
+                        key: "Alpha"
+                    },
+                    {
+                        key: "Beta"
+                    }
+                ]
+            );
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv1" style="height: 500px;width: 700px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv2" style="height: 500px;width: 700px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv3" style="height: 500px;width: 700px;border: 1px solid #000;"></div>
+</body>
+
+</html>
