@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS ??(Ports)</title>
+    <script src="go.js"></script>
+    <script src="./Figures.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+            let myDiagram = $(go.Diagram, "myDiagramDiv");
+
+            myDiagram.nodeTemplate =
+                $(go.Node, "Vertical", {},
+                    $(go.Shape, "Ellipse", {
+                        fill: "green",
+                        width: 30,
+                        height: 30,
+                        portId: "",
+                        fromSpot: go.Spot.Right,
+                        toSpot: go.Spot.Left
+                    }),
+                    $(go.TextBlock, {
+                            font: "20px sans-serif"
+                        },
+                        new go.Binding("text", "key")
+                    )
+                );
+
+            myDiagram.model = new go.GraphLinksModel(
+                [{
+                    key: "Alpha"
+                }, {
+                    key: "Beta"
+                }], [{
+                    from: "Alpha",
+                    to: "Beta"
+                }]
+            )
+
+
+
+            let myDiagram1 = $(go.Diagram, "myDiagramDiv1");
+
+            myDiagram1.nodeTemplate =
+                $(go.Node, "Spot",
+                    $(go.Panel, "Auto", $(go.Shape, "RoundedRectangle", {
+                            fill: "lightblue"
+                        }),
+                        $(go.TextBlock, {
+                                margin: 10
+                            },
+                            new go.Binding("text", "key")
+                        )
+                    ),
+                    //left port
+                    $(go.Shape, "Ellipse", {
+                        fill: "pink",
+                        desiredSize: new go.Size(10, 10),
+                        alignment: go.Spot.Left,
+                        portId: "l",
+                        fromSpot: go.Spot.Left,
+                        toSpot: go.Spot.Left,
+                        fromLinkable: true,
+                        toLinkable: true,
+                        fromLinkableDuplicates: true,
+                        fromLinkableSelfNode: true,
+                        toLinkableSelfNode: true
+                    }),
+                    //right port
+                    $(go.Shape, "Ellipse", {
+                        fill: "green",
+                        desiredSize: new go.Size(10, 10),
+                        alignment: go.Spot.Right,
+                        portId: "r",
+                        fromSpot: go.Spot.Right,
+                        toSpot: go.Spot.Right,
+                        fromLinkable: true,
+                        toLinkable: true,
+                        fromLinkableDuplicates: true,
+                        fromLinkableSelfNode: true,
+                        toLinkableSelfNode: true
+                    }),
+                );
+
+            myDiagram1.model = new go.GraphLinksModel(
+                [{
+                    key: "Alpha"
+                }, {
+                    key: "Beta"
+                }],
+                // [{
+                //     from: "Alpha",
+                //     to: "Beta",
+                //     fromPort: "r",
+                //     toPort: "l"
+                // }]
+            )
+
+            myDiagram1.model.linkFromPortIdProperty = "fromPort";
+            myDiagram1.model.linkToPortIdProperty = "toPort";
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv" style="height: 500px;width: 700px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv1" style="height: 500px;width: 700px;border: 1px solid #000;"></div>
+</body>
+
+</html>
