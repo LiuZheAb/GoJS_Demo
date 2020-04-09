@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS Item Arrays</title>
+    <script src="go.js"></script>
+    <script src="./Figures.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+            let myDiagram = $(go.Diagram, "myDiagramDiv");
+
+            myDiagram.nodeTemplate =
+                $(go.Node, "Vertical", new go.Binding("itemArray", "items"));
+
+            myDiagram.model = new go.GraphLinksModel(
+                [{
+                    key: 1,
+                    items: ["Alpha", "Beta", "Gamma"]
+                }, ]
+            )
+
+
+
+            let myDiagram1 = $(go.Diagram, "myDiagramDiv1");
+
+            myDiagram1.nodeTemplate =
+                $(go.Node, "Spot",
+                    $(go.Panel, "Auto",
+                        $(go.Shape, "RoundedRectangle", {
+                            fill: "lightblue"
+                        }),
+                        $(go.TextBlock, {
+                            margin: 10
+                        }, new go.Binding("text", "key"))
+                    ),
+                    $(go.Panel, "Horizontal", {
+                            alignment: go.Spot.Top
+                        },
+                        new go.Binding("itemArray", "ports"), {
+                            itemTemplate: $(go.Panel, {
+                                    portId: "",
+                                    fromSpot: go.Spot.Top,
+                                    toSpot: go.Spot.Top,
+                                    fromLinkable: true,
+                                    toLinkable: true
+                                }, new go.Binding("portId", "portID"),
+                                $(go.Shape, "Ellipse", {
+                                        desiredSize: new go.Size(10, 10),
+                                        fill: "green"
+                                    },
+                                    new go.Binding("fill", "color")
+                                ))
+                        }
+                    )
+                );
+
+            myDiagram1.model = new go.GraphLinksModel();
+            myDiagram1.model.linkFromPortIdProperty = "fromPort";
+            myDiagram1.model.linkToPortIdProperty = "toPort";
+            myDiagram1.model.nodeDataArray = [{
+                key: "Alpha",
+                ports: [{
+                    portId: "left",
+                    color: "red"
+                }, {
+                    portId: "middle",
+                    color: "yellow"
+                }, {
+                    portId: "right",
+                    color: "green"
+                }]
+            }, {
+                key: "Beta",
+                ports: [{
+                    portId: "left",
+                    color: "purple"
+                }, {
+                    portId: "farright",
+                    color: "pink"
+                }]
+            }, {
+                key: "Delta"
+            }, ]
+
+            let alphaNode = myDiagram1.findNodeForKey("Alpha");
+            myDiagram1.model.removeArrayItem(alphaNode.data.ports, 0);
+            myDiagram1.model.addArrayItem(alphaNode.data.ports, {
+                portID: "right2",
+                color: "white"
+            });
+            myDiagram1.model.insertArrayItem(alphaNode.data.ports, 1,{
+                portID: "middleleft",
+                color: "pink"
+            });
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv" style="height: 500px;width: 700px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv1" style="height: 500px;width: 700px;border: 1px solid #000;"></div>
+</body>
+
+</html>
