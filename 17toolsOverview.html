@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS工具——第二节 概述</title>
+    <script src="go.js"></script>
+    <script>
+        function init() {
+            let $ = go.GraphObject.make;
+            let myDiagram1 = $(go.Diagram, "myDiagramDiv1");
+            myDiagram1.layout = $(go.TreeLayout, {
+                angle: 90,
+                layerSpacing: 80,
+                nodeSpacing: 30,
+                layerStyle: go.TreeLayout.LayerSiblings
+            });
+
+            myDiagram1.nodeTemplate =
+                $(go.Node, "Auto",
+                    new go.Binding("location", "loc"), {
+                        locationSpot: go.Spot.TopLeft,
+                    },
+                    $(go.Shape, "RoundedRectangle", {
+                        fill: "#00e8ff",
+                    }),
+                    $(go.TextBlock, {
+                            margin: 8
+                        },
+                        new go.Binding("text", "text"))
+                );
+            myDiagram1.linkTemplate =
+                $(go.Link,
+                    $(go.Shape),
+                    $(go.Shape, {
+                        toArrow: "standard",
+                    }),
+                );
+            myDiagram1.model =
+                $(go.GraphLinksModel, {
+                    nodeDataArray: [{
+                        key: 0,
+                        text: "ToolManager",
+                    }, {
+                        key: 1,
+                        text: "MouseDownTools",
+                        isGroup: true,
+                    }, {
+                        key: 2,
+                        text: "MouseUpTools",
+                        isGroup: true,
+                    }, {
+                        key: 3,
+                        text: "MouseMoveTools",
+                        isGroup: true,
+                    }, {
+                        key: 4,
+                        text: "Action Tool",
+                        loc: new go.Point(0, 0),
+                        group: 1
+                    }, {
+                        key: 5,
+                        text: "Relinking Tool",
+                        loc: new go.Point(0, 50),
+                        group: 1
+                    }, {
+                        key: 6,
+                        text: "LinkReshaping Tool",
+                        loc: new go.Point(0, 100),
+                        group: 1
+                    }, {
+                        key: 7,
+                        text: "Resizing Tool",
+                        loc: new go.Point(0, 150),
+                        group: 1
+                    }, {
+                        key: 8,
+                        text: "Rotating Tool",
+                        loc: new go.Point(0, 200),
+                        group: 1
+                    }, {
+                        key: 9,
+                        text: "ContextMenu Tool",
+                        loc: new go.Point(0, 0),
+                        group: 2
+                    }, {
+                        key: 10,
+                        text: "TextEditing Tool",
+                        loc: new go.Point(0, 50),
+                        group: 2
+                    }, {
+                        key: 11,
+                        text: "ClickCreating Tool",
+                        loc: new go.Point(0, 100),
+                        group: 2
+                    }, {
+                        key: 12,
+                        text: "ClickSelecting Tool",
+                        loc: new go.Point(0, 150),
+                        group: 2
+                    }, {
+                        key: 13,
+                        text: "Linking Tool",
+                        loc: new go.Point(0, 0),
+                        group: 3
+                    }, {
+                        key: 14,
+                        text: "Dragging Tool",
+                        loc: new go.Point(0, 50),
+                        group: 3
+                    }, {
+                        key: 15,
+                        text: "DragSelecting Tool",
+                        loc: new go.Point(0, 100),
+                        group: 3
+                    }, {
+                        key: 16,
+                        text: "Panning Tool",
+                        loc: new go.Point(0, 150),
+                        group: 3
+                    }],
+                    linkDataArray: [{
+                            from: 0,
+                            to: 1,
+                        },
+                        {
+                            from: 0,
+                            to: 2,
+                        },
+                        {
+                            from: 0,
+                            to: 3
+                        },
+                    ]
+                })
+
+
+
+            let myDiagram2 = $(go.Diagram, "myDiagramDiv2");
+            myDiagram2.nodeTemplate =
+                $(go.Node, "Auto",
+                    new go.Binding("location", "loc"), {
+                        locationSpot: go.Spot.Center,
+                    },
+                    $(go.Shape, "RoundedRectangle", {
+                        fill: "lightblue",
+                        strokeWidth: 0
+                    }),
+                    $(go.TextBlock, {
+                            margin: 8
+                        },
+                        new go.Binding("text", "text"))
+                );
+            myDiagram2.linkTemplate =
+                $(go.Link,
+                    new go.Binding("curve", "curve"),
+                    $(go.Shape),
+                    $(go.Shape, {
+                        toArrow: "OpenTriangle",
+                    }),
+                    $(go.TextBlock,
+                        new go.Binding("text", "text"),
+                        new go.Binding("segmentOrientation", "segmentOrientation"),
+                        new go.Binding("segmentOffset", "segmentOffset"),
+                        new go.Binding("alignmentFocus", "alignmentFocus")),
+
+                );
+            myDiagram2.model =
+                $(go.GraphLinksModel, {
+                    nodeDataArray: [{
+                        key: 0,
+                        text: "toolManager searches\n tool list (i.e.\n mouseDownTools)",
+                        loc: new go.Point(0, 0)
+                    }, {
+                        key: 1,
+                        text: "canStart()",
+                        loc: new go.Point(0, 100)
+                    }, {
+                        key: 2,
+                        text: "toolManager.currentTool\n = this.tool",
+                        loc: new go.Point(0, 200)
+                    }, {
+                        key: 3,
+                        text: "doActivate()",
+                        loc: new go.Point(0, 280)
+                    }, {
+                        key: 4,
+                        text: "doStart()",
+                        loc: new go.Point(0, 360)
+                    }, {
+                        key: 5,
+                        text: "Tool is active",
+                        loc: new go.Point(0, 440)
+                    }, {
+                        key: 6,
+                        text: "doMouseDown()\ndoMouseUp()\ndoMouseMove()\ndoKeyDown()\ndoKeyUp()",
+                        loc: new go.Point(-250, 540)
+                    }, {
+                        key: 7,
+                        text: "doCancel()",
+                        loc: new go.Point(250, 540)
+                    }, {
+                        key: 8,
+                        text: "stopTool()",
+                        loc: new go.Point(0, 640)
+                    }, {
+                        key: 9,
+                        text: "toolManager.currentTool\n = toolManager.defaultTool",
+                        loc: new go.Point(0, 720)
+                    }, {
+                        key: 10,
+                        text: "doDeactivate()",
+                        loc: new go.Point(0, 800)
+                    }, {
+                        key: 11,
+                        text: "doStop()",
+                        loc: new go.Point(0, 880)
+                    }],
+                    linkDataArray: [{
+                            from: 0,
+                            to: 1,
+                            text: "Finds this tool",
+                            alignmentFocus: go.Spot.Left,
+                            segmentOffset: new go.Point(0, -8)
+                        },
+                        {
+                            from: 1,
+                            to: 2,
+                            text: "Returns true",
+                            alignmentFocus: go.Spot.Left,
+                            segmentOffset: new go.Point(0, -8)
+                        },
+                        {
+                            from: 2,
+                            to: 3
+                        },
+                        {
+                            from: 3,
+                            to: 4
+                        },
+                        {
+                            from: 4,
+                            to: 5
+                        },
+                        {
+                            from: 5,
+                            to: 6,
+                            text: "Receives input",
+                            curve: go.Link.Bezier,
+                            segmentOrientation: go.Link.OrientUpright,
+                            alignmentFocus: go.Spot.Top,
+                        },
+                        {
+                            from: 5,
+                            to: 7,
+                            text: "User cancels tool",
+                            segmentOrientation: go.Link.OrientUpright,
+                            alignmentFocus: go.Spot.Bottom,
+                        },
+                        {
+                            from: 6,
+                            to: 5,
+                            text: "Input is not terminal",
+                            curve: go.Link.Bezier,
+                            segmentOrientation: go.Link.OrientUpright,
+                            alignmentFocus: go.Spot.Top,
+                        },
+                        {
+                            from: 6,
+                            to: 8,
+                            text: "input is terminal",
+                            segmentOrientation: go.Link.OrientUpright,
+                            alignmentFocus: go.Spot.Top,
+                        },
+                        {
+                            from: 7,
+                            to: 8
+                        },
+                        {
+                            from: 8,
+                            to: 9
+                        },
+                        {
+                            from: 9,
+                            to: 10
+                        },
+                        {
+                            from: 10,
+                            to: 11
+                        },
+                    ]
+                })
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="myDiagramDiv1" style="height: 500px;width: 700px;border: 1px solid #000;"></div>
+    <div id="myDiagramDiv2" style="height: 1000px;width: 700px;border: 1px solid #000;"></div>
+</body>
+
+</html>
